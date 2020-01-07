@@ -146,6 +146,30 @@ ImageObject* newImageObject() {
     return res;
 }
 
+void Transformation_dealloc(TransformationObject* self) {
+    if (self->transformation) {
+        k4a_transformation_destroy(self->transformation);
+    }
+}
+
+static PyTypeObject TransformationType = {
+    PyVarObject_HEAD_INIT(NULL, 0)
+    .tp_name = "k4a.Transformation",
+    .tp_doc = "Kinect image transformation",
+    .tp_basicsize = sizeof(TransformationObject),
+    .tp_itemsize = 0,
+    .tp_flags = Py_TPFLAGS_DEFAULT,
+    .tp_new = PyType_GenericNew,
+    .tp_dealloc = (destructor) Transformation_dealloc,
+};
+
+TransformationObject* newTransformationObject() {
+    TransformationObject* res = PyObject_New(TransformationObject, &TransformationType);
+    PyObject_Init((PyObject*) res, &TransformationType);
+
+    return res;
+}
+
 bool initTypes()
 {
     if (PyType_Ready(&DeviceType) < 0 ||
@@ -165,16 +189,19 @@ bool addTypes(PyObject *mod)
     Py_INCREF(&DeviceConfigurationType);
     Py_INCREF(&CaptureType);
     Py_INCREF(&ImageType);
+    Py_INCREF(&TransformationType);
     if (PyModule_AddObject(mod, "Device", (PyObject *)&DeviceType) < 0 ||
         PyModule_AddObject(mod, "DeviceConfiguration", (PyObject *)&DeviceConfigurationType) < 0 ||
         PyModule_AddObject(mod, "Capture", (PyObject*) &CaptureType) < 0 ||
-        PyModule_AddObject(mod, "Image", (PyObject*) &ImageType) < 0
+        PyModule_AddObject(mod, "Image", (PyObject*) &ImageType) < 0 ||
+        PyModule_AddObject(mod, "Transformation", (PyObject*) &TransformationType) < 0
     )
     {
         Py_DECREF(&DeviceType);
         Py_DECREF(&DeviceConfigurationType);
         Py_DECREF(&CaptureType);
         Py_DECREF(&ImageType);
+        Py_DECREF(&TransformationType);
         return false;
     }
     return true;

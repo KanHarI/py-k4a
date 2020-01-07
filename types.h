@@ -49,6 +49,20 @@ typedef struct {
 
 ImageObject* newImageObject();
 
+typedef struct {
+    PyObject_HEAD
+    k4a_transformation_t transformation;
+} TransformationObject;
+
+TransformationObject* newTransformationObject();
+
+typedef struct {
+    PyObject_HEAD
+        k4a_calibration_t calibration;
+} CalibrationObject;
+
+CalibrationObject* newCalibrationObject();
+
 bool initTypes();
 bool addTypes();
 void registerEnums(PyObject *mod);

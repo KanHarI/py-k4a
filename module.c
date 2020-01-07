@@ -7,6 +7,7 @@
 #include "capture.h"
 #include "device.h"
 #include "gen.h"
+#include "transformation.h"
 
 static PyMethodDef methods[] = {
     { "device_get_installed_count", device_get_installed_count, METH_NOARGS, "Gets installed device count" },
@@ -17,6 +18,7 @@ static PyMethodDef methods[] = {
     { "device_start_cameras", device_start_cameras, METH_VARARGS, "Start device cameras"},
     { "device_stop_cameras", device_stop_cameras, METH_VARARGS, "Stop device cameras"},
     { "device_get_capture", device_get_capture, METH_VARARGS, "Get a capture"},
+    { "device_create_transformation", device_create_transformation, METH_VARARGS, "Create empty transformation"},
     { "capture_get_depth_image", py_capture_get_depth_image, METH_VARARGS, "Get a depth image"},
     { "capture_get_color_image", py_capture_get_color_image, METH_VARARGS, "Get a color image"},
     { "capture_get_ir_image", py_capture_get_ir_image, METH_VARARGS, "Get an ir image"},
@@ -26,6 +28,8 @@ static PyMethodDef methods[] = {
     { "image_get_stride_bytes", py_image_get_stride_bytes, METH_VARARGS, "Get stride width in bytes"},
     { "image_release", py_image_release, METH_VARARGS, "Release image"},
     { "capture_release", py_capture_release, METH_VARARGS, "Release capture"},
+    { "transformation_depth_image_to_color_camera", transformation_depth_image_to_color_camera,  METH_VARARGS, "Transform depth to color"},
+    { "calibration_2d_to_3d", calibration_2d_to_3d, METH_VARARGS, "Translate 2d pixel + depth to cartesian location"},
     { NULL, NULL, 0, NULL }
 };
 

@@ -120,3 +120,35 @@ PyObject *device_stop_cameras(PyObject *self, PyObject *args)
 
     return Py_None;
 }
+
+PyObject *device_create_transformation(PyObject *self, PyObject *args)
+{
+    DeviceObject *obj;
+    DeviceConfiguration *config;
+
+    PyArg_ParseTuple(args, "OO", &obj, &config);
+
+    k4a_calibration_t calibration_obj;
+
+    k4a_result_t result = k4a_device_get_calibration(
+        obj->device,
+        config->depth_mode,
+        config->color_resolution,
+        &calibration_obj
+    );
+
+    if (result != K4A_RESULT_SUCCEEDED)
+    {
+        return Py_None;
+    }
+
+    TransformationObject *transObj = newTransformationObject();
+    transObj->transformation = k4a_transformation_create(&calibration_obj);
+
+    if (transObj->transformation == NULL)
+    {
+        return Py_None;
+    }
+
+    return (PyObject*) transObj;
+}

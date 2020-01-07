@@ -8,3 +8,4 @@ PyObject* device_get_version(PyObject* self, PyObject* args);
 PyObject* device_close(PyObject* self, PyObject* args);
 PyObject* device_start_cameras(PyObject* self, PyObject* args);
 PyObject* device_stop_cameras(PyObject* self, PyObject* args);
+PyObject* device_create_transformation(PyObject* self, PyObject* args);
