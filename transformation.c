@@ -62,14 +62,15 @@ PyObject* calibration_2d_to_3d(PyObject* self, PyObject* args)
 {
 	DeviceObject *obj;
 	DeviceConfiguration *config;
-	k4a_float2_t pixel_loc;
 	float depth;
+    float x;
+    float y;
 
-    printf("Line 68!");
+	PyArg_ParseTuple(args, "OOfff", &obj, &config, &x, &y, &depth);
 
-	PyArg_ParseTuple("OOfff", &obj, &config, &pixel_loc.xy.x, &pixel_loc.xy.y, &depth);
-
-    printf("Line 72!");
+    k4a_float2_t pixel_loc;
+    pixel_loc.xy.x = x;
+    pixel_loc.xy.y = y;
 
 	k4a_calibration_t calibration;
 
@@ -80,19 +81,13 @@ PyObject* calibration_2d_to_3d(PyObject* self, PyObject* args)
         &calibration
     );
 
-    printf("Line 83!");
-
     if (result != K4A_RESULT_SUCCEEDED)
     {
         return Py_None;
     }
 
-    printf("Line 90!");
-
     k4a_float3_t _3d_loc;
     int is_valid;
-
-    printf("Line 97!");
 
     result = k4a_calibration_2d_to_3d(
     	&calibration,
@@ -104,14 +99,10 @@ PyObject* calibration_2d_to_3d(PyObject* self, PyObject* args)
     	&is_valid
     );
 
-    printf("Line 107!");
-
     if (result != K4A_RESULT_SUCCEEDED || !is_valid)
     {
     	return Py_None;
     }
-
-    printf("Line 114!");
 
 	return Py_BuildValue("fff", _3d_loc.xyz.x, _3d_loc.xyz.y, _3d_loc.xyz.z);
 }
