@@ -45,8 +45,8 @@ PyObject* transformation_depth_image_to_color_camera(PyObject* self, PyObject* a
 
     result = k4a_transformation_depth_image_to_color_camera(
     	transObj->transformation,
-    	dstImgObj->image,
-    	imgObj->image
+        imgObj->image,
+    	dstImgObj->image
     );
 
     if (result != K4A_RESULT_SUCCEEDED)
