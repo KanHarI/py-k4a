@@ -175,7 +175,8 @@ bool initTypes()
     if (PyType_Ready(&DeviceType) < 0 ||
         PyType_Ready(&DeviceConfigurationType) < 0 ||
         PyType_Ready(&CaptureType) < 0 ||
-        PyType_Ready(&ImageType) < 0
+        PyType_Ready(&ImageType) < 0 ||
+        PyType_Ready(&TransformationType) < 0
     )
     {
         return false;
